@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>Hello, Django</title>
+  {% load static %}
+<link rel="stylesheet" href="{% static 'myCSS.css' %}" />
+
+
+
+  </head>
+  <body>
+    <h1 class="highlight">Hello there, {{ name }}!</h1>
+    <p>This is a proper HTML page</p>
+    <p>Today is {{date}}</p>
+  </body>
+</html>
