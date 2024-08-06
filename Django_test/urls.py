@@ -1,7 +1,7 @@
 from django.urls import path
 from app1 import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
+from django.contrib import admin
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -12,7 +12,13 @@ urlpatterns = [
     path("about/", views.home1, name="home"),
     path("home/", views.about, name="about"),
     path("contact/", views.contact, name="contact"),
-
+    ### 06/08/2024###
+    path("", views.addMessage, name="log1"),
+    path("log/", views.addMessage, name="log2"),
+    path("show/", views.showMessages, name="show"),
+    ####ADMIN URL####
+    path('admin/',admin.site.urls),
+    path("search/<q>", views.searchAjax, name="search")
 ]
 
 urlpatterns += staticfiles_urlpatterns()
