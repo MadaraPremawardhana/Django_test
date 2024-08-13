@@ -2,6 +2,10 @@ from django.urls import path
 from app1 import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
+from django.contrib import admin
+from django.urls import path, include
+from app1.views import set_cookie, show_template
+
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -19,9 +23,18 @@ urlpatterns = [
     ####ADMIN URL####
     path('admin/',admin.site.urls),
     path("search/<q>", views.searchAjax, name="search"),
-    #### REST- request####
+    #### POST request####
     path("message/<i>", views.showMessageAsJson, name="showJson"),
     path("addMessage_json/", views.addMessage_json, name="addMessage"),
+    #### REST-API####
+   
+    path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),
+
+    #### COOKIE###
+    path('set-cookie/', set_cookie, name='set-cookie'),
+    path('show-template/', show_template, name='show-template'),
+
 ]   
 
 

@@ -101,3 +101,12 @@ def addMessage_json(request):
         except:
             response = json.dumps([{ 'Error': 'Message could not be added!'}])
     return HttpResponse(response, content_type='text/json')
+
+def set_cookie(request):
+    response = HttpResponse("Cookie set!")
+    response.set_cookie("my_cookie", "example_value")
+    return response
+
+def show_template(request):
+    return render(request, 'cookie_template.html')
+
