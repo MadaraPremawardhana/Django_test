@@ -18,7 +18,11 @@ urlpatterns = [
     path("show/", views.showMessages, name="show"),
     ####ADMIN URL####
     path('admin/',admin.site.urls),
-    path("search/<q>", views.searchAjax, name="search")
-]
+    path("search/<q>", views.searchAjax, name="search"),
+    #### REST- request####
+    path("message/<i>", views.showMessageAsJson, name="showJson"),
+    path("addMessage_json/", views.addMessage_json, name="addMessage"),
+]   
+
 
 urlpatterns += staticfiles_urlpatterns()

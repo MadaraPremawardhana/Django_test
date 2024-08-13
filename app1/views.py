@@ -6,9 +6,12 @@ from django.shortcuts import redirect, render
 from app1.forms import LogForm
 from app1.models import LogMessage
 import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+@csrf_exempt
 
 # Respond with "Hello, Django!" when the user requests the home page of the ap
-from django.http import HttpResponse
+
 def home(request):
     return HttpResponse("Hello, Django!")
 
@@ -64,14 +67,37 @@ def addMessage(request):
 
 ####AJAX BASED SEARCH###
 
-def searchAjax(request,q):
-    messagesList = LogMessage.objects.filter(message__contains=q)
-    if(len(messagesList)>0):
-        out="<table><tr><th>Date/Time</th><th>Title</th><th>Message</th><tr>"
+def searchAjax(request, q):
+    messagesList=LogMessage.objects.filter(message__contains=q)
+    if (len(messagesList)>0):
+        out="<table><tr><th>Date/Time</th><th>Title</th><th>Message</th></tr>"
         for x in messagesList:
-            t = x.log_date.strftime("%A, %d %B, %Y at %X")
-            out+="<tr><td>+t+</td><td>+x.title+</td><td>+x.message+</td></tr>"
-            out+="</table>"
+            t=x.log_date.strftime('%A, %d %B, %Y at %X')
+            out+="<tr><td>"+t+ "</td><td>" + x.title +"</td><td>" + x.message +"</td></tr>"
+        out+="</table>"
     else:
-        out = "no matching results"
+        out="no matching results"
     return HttpResponse(out)
+
+# JSON output 13/08/2024
+
+def showMessageAsJson(request,i):
+    try:
+        message=LogMessage.objects.get(id=i)
+        res=json.dumps([{ 'id': message.id, 'title': message.title, 'message': message.message}], indent=2)
+    except:
+        res=json.dumps([{ 'error' : 'no message found'}])
+    
+    return HttpResponse(res, content_type='text/json')
+
+
+def addMessage_json(request):
+    if request.method == 'POST':
+        payload = json.loads(request.body)
+        message = LogMessage(title=payload['title'], message=payload['message'],log_date = datetime.now())
+        try:
+            message.save()
+            response = json.dumps([{ 'Success': 'Message added successfully!'}])
+        except:
+            response = json.dumps([{ 'Error': 'Message could not be added!'}])
+    return HttpResponse(response, content_type='text/json')
