@@ -35,6 +35,10 @@ urlpatterns = [
     path('set-cookie/', set_cookie, name='set-cookie'),
     path('show-template/', show_template, name='show-template'),
 
+    path('admin_sso/', admin.site.urls),
+    path('accounts_sso/', include('allauth.urls')),  # Include allauth URLs
+
+
 ]   
 
 

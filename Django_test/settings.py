@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'app1',
     'rest_framework',
     'api',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +57,16 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Django_test.urls'
+
+AUTHENTICATION_BACKENDS = (
+    # ...
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+AUTHENTICATION_CLASSES = (
+    # ...
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 TEMPLATES = [
     {
